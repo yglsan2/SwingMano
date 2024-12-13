@@ -1,0 +1,91 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class ConsoleSwingBase {
+    public static void main(String[] args) {
+        ConsoleFrame frame = new ConsoleFrame("Console Swing Framework");
+
+        frame.addLabel("Bienvenue l' interface CLI inspirée de Swing !");
+        frame.addButton("Afficher un message", () -> System.out.println("Vous avez appuyé sur le bouton !"));
+        frame.addButton("Quitter", () -> System.exit(0));
+
+        frame.show();
+    }
+}
+
+abstract class ConsoleComponent {
+    public abstract void render();
+}
+
+class ConsoleLabel extends ConsoleComponent {
+    private final String text;
+
+    public ConsoleLabel(String text) {
+        this.text = text;
+    }
+
+    @Override
+    public void render() {
+        System.out.println(text);
+    }
+}
+
+class ConsoleButton extends ConsoleComponent {
+    private final String label;
+    private final Runnable action;
+
+    public ConsoleButton(String label, Runnable action) {
+        this.label = label;
+        this.action = action;
+    }
+
+    public void press() {
+        action.run();
+    }
+
+    @Override
+    public void render() {
+        System.out.println("[ " + label + " ]");
+    }
+}
+
+class ConsoleFrame {
+    private final String title;
+    private final List<ConsoleComponent> components = new ArrayList<>();
+
+    public ConsoleFrame(String title) {
+        this.title = title;
+    }
+
+    public void addLabel(String text) {
+        components.add(new ConsoleLabel(text));
+    }
+
+    public void addButton(String label, Runnable action) {
+        components.add(new ConsoleButton(label, action));
+    }
+
+    public void show() {
+        System.out.println("+" + "-".repeat(title.length() + 2) + "+");
+        System.out.println("| " + title + " |");
+        System.out.println("+" + "-".repeat(title.length() + 2) + "+");
+
+        int index = 1;
+        for (ConsoleComponent component : components) {
+            System.out.print(index + ". ");
+            component.render();
+            index++;
+        }
+
+        System.out.print("> ");
+        try (Scanner scanner = new Scanner(System.in)) {
+            int choice = scanner.nextInt() - 1;
+            if (choice >= 0 && choice < components.size() && components.get(choice) instanceof ConsoleButton) {
+                ((ConsoleButton) components.get(choice)).press();
+            } else {
+                System.out.println("Choix invalide.");
+            }
+        }
+    }
+}

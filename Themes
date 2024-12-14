@@ -1,0 +1,51 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class Themes {
+
+    private static void setLookAndFeel(String theme) {
+        try {
+            if (theme.equals("Dark")) {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+                UIManager.put("nimbusBase", new Color(51, 51, 51)); // Dark theme base color
+                UIManager.put("nimbusLightBackground", new Color(35, 35, 35)); // Background color
+            } else {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            }
+        } catch (UnsupportedLookAndFeelException | ClassNotFoundException |
+                 InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("SwingMano with Themes");
+            frame.setSize(400, 300);
+
+            JMenuBar menuBar = new JMenuBar();
+            JMenu themeMenu = new JMenu("Themes");
+            JMenuItem darkThemeItem = new JMenuItem("Dark Theme");
+            JMenuItem lightThemeItem = new JMenuItem("Light Theme");
+
+            darkThemeItem.addActionListener(e -> {
+                setLookAndFeel("Dark");
+                SwingUtilities.updateComponentTreeUI(frame);
+            });
+
+            lightThemeItem.addActionListener(e -> {
+                setLookAndFeel("Light");
+                SwingUtilities.updateComponentTreeUI(frame);
+            });
+
+            themeMenu.add(darkThemeItem);
+            themeMenu.add(lightThemeItem);
+            menuBar.add(themeMenu);
+            frame.setJMenuBar(menuBar);
+
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+        });
+    }
+}

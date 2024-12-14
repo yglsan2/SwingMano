@@ -1,5 +1,9 @@
+
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.*;
+
 class CommandParser {
     private final ComponentManager componentManager = new ComponentManager();
     private final Exporter exporter = new Exporter(componentManager);
@@ -41,7 +45,7 @@ class CommandParser {
                 componentManager.displayPreview();
                 return true;
             case "#quit":
-                System.out.println("Merci d'avoir utilisé SwingMano. Au revoir !");
+                System.out.println("Merci d'avoir utilisé SwingMano. A bientôt");
                 System.exit(0);
                 return true;
             default:

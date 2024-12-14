@@ -1,0 +1,18 @@
+import javax.swing.*;
+import java.awt.*;
+
+public class FlexibleLayout {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Flexible Layout");
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+
+        JButton button1 = new JButton("Button 1");
+        JButton button2 = new JButton("Button 2");
+        frame.add(button1);
+        frame.add(button2);
+
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}

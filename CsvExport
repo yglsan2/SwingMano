@@ -1,0 +1,16 @@
+import java.io.*;
+import javax.swing.*;
+
+public class CsvExport {
+    public static void exportDataToCsv(String[][] data, String filename) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filename))) {
+            for (String[] row : data) {
+                bw.write(String.join(",", row));
+                bw.newLine();
+            }
+            JOptionPane.showMessageDialog(null, "Data exported successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,70 +1,59 @@
 
-import javax.swing.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 class ComponentManager {
     private final List<JComponent> components = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);
     private final ComponentFactory componentFactory = new ComponentFactory();
 
-    public void addComponent(String type) {
-        JComponent component = componentFactory.createComponent(type);
-        if (component == null) {
-            System.out.println("Type de composant non pris en charge.");
-            return;
-        }
+    public void addLabel(String text) {
+        JLabel label = new JLabel(text);
+        components.add(label);
+        System.out.println("Label ajouté : " + text);
+    }
 
-        System.out.print("Entrez une description pour le " + type + " : ");
-        String description = scanner.nextLine();
-        component.setToolTipText(description);
-        components.add(component);
-        System.out.println(type + " ajouté avec succès !\n");
+    public void addButton(String text) {
+        JButton button = new JButton(text);
+        components.add(button);
+        System.out.println("Bouton ajouté : " + text);
+    }
+
+    public void addTextField(String label) {
+        JTextField textField = new JTextField(label);
+        components.add(textField);
+        System.out.println("Champ de texte ajouté : " + label);
+    }
+
+    public void addTable(int rows) {
+        JTable table = new JTable(rows, 3); // Exemple avec 3 colonnes
+        components.add(table);
+        System.out.println("Table ajoutée avec " + rows + " lignes.");
+    }
+
+    public void addComboBox(String[] options) {
+        JComboBox<String> comboBox = new JComboBox<>(options);
+        components.add(comboBox);
+        System.out.println("Menu déroulant ajouté avec options : " + String.join(", ", options));
+    }
+
+    public void addCheckBox(String label) {
+        JCheckBox checkBox = new JCheckBox(label);
+        components.add(checkBox);
+        System.out.println("Case à cocher ajoutée : " + label);
+    }
+
+    public void addRadioButton(String label) {
+        JRadioButton radioButton = new JRadioButton(label);
+        components.add(radioButton);
+        System.out.println("Bouton radio ajouté : " + label);
+    }
+
+    public void addTextArea(String label) {
+        JTextArea textArea = new JTextArea(label);
+        components.add(textArea);
+        System.out.println("Zone de texte ajoutée : " + label);
     }
 
     public void displayPreview() {
         PreviewManager.displayPreview(components);
-    }
-
-    public void editPreview() {
-        if (components.isEmpty()) {
-            System.out.println("Aucun composant à éditer. Ajoutez des composants d'abord.");
-            return;
-        }
-
-        PreviewManager.displayPreview(components);
-
-        System.out.print("Entrez le numéro de l'élément à modifier : ");
-        int index;
-        try {
-            index = Integer.parseInt(scanner.nextLine()) - 1;
-            if (index < 0 || index >= components.size()) {
-                System.out.println("Index invalide. Retour au menu principal.");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Entrée invalide. Retour au menu principal.");
-            return;
-        }
-
-        JComponent component = components.get(index);
-        System.out.println("Vous modifiez : [" + component.getClass().getSimpleName() + "] " + component.getToolTipText());
-        System.out.print("Voulez-vous vraiment modifier cet élément ? (O/N) : ");
-        String confirmation = scanner.nextLine().trim().toLowerCase();
-
-        if (confirmation.equals("o")) {
-            System.out.print("Entrez la nouvelle description : ");
-            String newDescription = scanner.nextLine();
-            component.setToolTipText(newDescription);
-            System.out.println("Modification réussie !\n");
-        } else {
-            System.out.println("Modification annulée.\n");
-        }
-    }
-
-    public void savePreview() {
-        PreviewManager.savePreview(components);
     }
 
     public List<JComponent> getComponents() {

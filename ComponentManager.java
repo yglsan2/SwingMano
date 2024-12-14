@@ -1,4 +1,5 @@
-
+import javax.swing.*;
+import java.util.*;
 class ComponentManager {
     private final List<JComponent> components = new ArrayList<>();
     private static final Scanner scanner = new Scanner(System.in);

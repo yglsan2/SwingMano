@@ -1,4 +1,4 @@
-SwingMano.java
+
 
 import java.util.Scanner;
 

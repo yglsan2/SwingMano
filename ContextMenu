@@ -1,0 +1,45 @@
+import javax.swing.*;
+import java.awt.event.*;
+
+public class ContextMenus {
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Context Menu");
+        JPopupMenu popupMenu = new JPopupMenu();
+
+        JMenuItem menuItem1 = new JMenuItem("Option 1");
+        menuItem1.addActionListener(e -> System.out.println("Option 1 selected"));
+        popupMenu.add(menuItem1);
+
+        JMenuItem menuItem2 = new JMenuItem("Option 2");
+        menuItem2.addActionListener(e -> System.out.println("Option 2 selected"));
+        popupMenu.add(menuItem2);
+
+        // Adding right-click functionality to open the context menu
+        frame.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+
+            public void mouseReleased(MouseEvent e) {
+                if (e.isPopupTrigger()) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
+
+        // Keyboard shortcut (Ctrl + Q for Option 1)
+        frame.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("ctrl Q"), "option1");
+        frame.getActionMap().put("option1", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Option 1 selected via shortcut");
+            }
+        });
+
+        frame.setSize(300, 200);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+}
